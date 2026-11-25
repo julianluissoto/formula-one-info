@@ -1,5 +1,6 @@
 "use client";
 
+import { Fold } from "@/components/fold";
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 
@@ -57,8 +58,7 @@ export function Favorites({ items }: { items: { href: string; name: string; deta
   const mine = items.filter((x) => favs.includes(x.href));
   if (!mine.length) return null;
   return (
-    <section className="mt-12">
-      <h2 className="mb-4 text-2xl font-semibold tracking-tight">Tus favoritos</h2>
+    <Fold id="favoritos" title="Tus favoritos" defaultOpen>
       <ul className="flex flex-wrap gap-3">
         {mine.map((x) => (
           <li key={x.href}>
@@ -69,6 +69,6 @@ export function Favorites({ items }: { items: { href: string; name: string; deta
           </li>
         ))}
       </ul>
-    </section>
+    </Fold>
   );
 }

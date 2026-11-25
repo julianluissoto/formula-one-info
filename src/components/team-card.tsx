@@ -19,7 +19,7 @@ export function TeamCard({ team }: { team: Team }) {
 
   return (
     <section className="flex flex-col overflow-hidden rounded-md border-t-4 bg-panel" style={{ borderColor: team.color }}>
-      <h2 className="px-4 pt-3 pb-2 text-lg font-semibold"><TeamBadge team={team} /><FavStar href={`/escuderias/${team.slug}`} /></h2>
+      <h3 className="px-4 pt-3 pb-2 text-lg font-semibold"><TeamBadge team={team} /><FavStar href={`/escuderias/${team.slug}`} /></h3>
       <div className="grid grid-cols-2 divide-x divide-line border-y border-line">
         {main.map((x) => (
           <Link key={x.slug} href={`/pilotos/${x.slug}`} className="flex min-w-0 flex-col gap-3 px-4 py-4 transition-colors hover:bg-panel-hover sm:flex-row">

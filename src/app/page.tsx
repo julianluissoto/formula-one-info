@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { Favorites } from "@/components/favorite";
+import { Fold } from "@/components/fold";
 import { Logo } from "@/components/logo";
 import { NextRace } from "@/components/next-race";
 import { Track } from "@/components/track";
 import { RaceTyres } from "@/components/tyres";
 import { TeamCard } from "@/components/team-card";
-import { ApiNotice, Section, Skeleton, Table, TeamBadge, formatDate, formatPos, td, tdNum, th, thNum } from "@/components/ui";
+import { ApiNotice, Skeleton, Table, TeamBadge, formatDate, formatPos, td, tdNum, th, thNum } from "@/components/ui";
 import { circuits } from "@/data/circuits";
 import { drivers, getDriverByJolpicaId, titulares } from "@/data/drivers";
 import { rounds } from "@/data/season";
@@ -29,24 +30,25 @@ export default function Home() {
       <h1 className="flex items-center gap-4 text-6xl font-semibold tracking-tight sm:text-7xl"><Logo className="h-20 shrink-0 sm:h-24" />F1 Info</h1>
       <p className="mt-4 max-w-xl text-lg text-muted">La temporada 2026 en un solo lugar: {teams.length} escuderías, {titulares.length} titulares, circuitos y resultados.</p>
 
-      <NextRace races={upcoming} />
-      <Favorites items={favorites} />
-
-      <h2 className="mt-14 text-2xl font-semibold tracking-tight">Escuderías y pilotos</h2>
-      <div className="mt-4 grid gap-6 lg:grid-cols-2">
-        {teams.map((team) => <TeamCard key={team.slug} team={team} />)}
+      <div className="mt-10">
+        {upcoming.length > 0 && <Fold id="proxima" title="Próxima carrera" aside={`Gran Premio de ${upcoming[0].gp}`} defaultOpen><NextRace races={upcoming} /></Fold>}
+        <Favorites items={favorites} />
+        <Fold id="escuderias" title="Escuderías y pilotos" aside={`${teams.length} escuderías`}>
+          <div className="grid gap-6 lg:grid-cols-2">
+            {teams.map((team) => <TeamCard key={team.slug} team={team} />)}
+          </div>
+        </Fold>
+        <Suspense fallback={<Skeleton />}>
+          <Live />
+        </Suspense>
       </div>
-
-      <Suspense fallback={<Section title="Campeonatos"><Skeleton /></Section>}>
-        <Live />
-      </Suspense>
     </>
   );
 }
 
 async function Live() {
   const [s, race] = await Promise.all([getStandings(), getLastRace()]);
-  if (!s) return <Section title="Campeonatos"><ApiNotice /></Section>;
+  if (!s) return <Fold id="campeonatos" title="Campeonatos" defaultOpen><ApiNotice /></Fold>;
 
   const official = new Set(titulares.map((x) => x.jolpicaId));
   const subs = s.drivers.filter((x) => !official.has(x.Driver.driverId));
@@ -64,7 +66,7 @@ async function Live() {
   return (
     <>
       {subs.length > 0 && (
-        <Section title="Corrieron como reemplazo" aside={race ? `Última carrera: ronda ${race.round}, ${formatDate(race.date)}` : undefined}>
+        <Fold id="reemplazos" title="Corrieron como reemplazo" aside={race ? `Última carrera: ronda ${race.round}, ${formatDate(race.date)}` : undefined}>
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {subs.map((x) => (
               <li key={x.Driver.driverId} className="rounded-md bg-panel px-4 py-3">
@@ -74,10 +76,9 @@ async function Live() {
               </li>
             ))}
           </ul>
-        </Section>
+        </Fold>
       )}
-      <div className="grid items-start gap-x-10 lg:grid-cols-[3fr_2fr]">
-        <Section title="Pilotos" aside={aside}>
+        <Fold id="pilotos" title="Campeonato de pilotos" aside={aside}>
           <Table>
             <thead><tr><th className={th}>Pos.</th><th className={th}>Piloto</th><th className={th}>Escudería</th><th className={thNum}>Vict.</th><th className={thNum}>Puntos</th></tr></thead>
             <tbody>{s.drivers.map((x) => (
@@ -90,8 +91,8 @@ async function Live() {
               </tr>
             ))}</tbody>
           </Table>
-        </Section>
-        <Section title="Constructores" aside={aside}>
+        </Fold>
+        <Fold id="constructores" title="Campeonato de constructores" aside={aside}>
           <Table>
             <thead><tr><th className={th}>Pos.</th><th className={th}>Escudería</th><th className={thNum}>Vict.</th><th className={thNum}>Puntos</th></tr></thead>
             <tbody>{s.constructors.map((x) => (
@@ -103,8 +104,7 @@ async function Live() {
               </tr>
             ))}</tbody>
           </Table>
-        </Section>
-      </div>
+        </Fold>
     </>
   );
 }

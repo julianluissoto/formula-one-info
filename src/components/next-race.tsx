@@ -17,7 +17,7 @@ export function NextRace({ races }: { races: Race[] }) {
   // 0 en el servidor: la hora solo se conoce en el navegador.
   const now = useSyncExternalStore(tick, () => Math.floor(Date.now() / 1000), () => 0) * 1000;
   const race = races.find((r) => Date.parse(r.sessions.at(-1)!.at) + 3 * HOUR > now);
-  if (!race) return null;
+  if (!race) return <p className="text-muted">No quedan carreras por delante en el calendario cargado.</p>;
 
   const start = Date.parse(race.sessions.at(-1)!.at);
   const left = Math.max(0, start - now);
@@ -25,10 +25,10 @@ export function NextRace({ races }: { races: Race[] }) {
   const next = race.sessions.find((s) => Date.parse(s.at) > now);
 
   return (
-    <section aria-labelledby="proxima" className="mt-10 grid gap-x-10 gap-y-6 rounded-md bg-panel p-5 sm:p-7 md:grid-cols-[1fr_18rem]">
+    <section aria-labelledby="proxima" className="grid gap-x-10 gap-y-6 rounded-md bg-panel p-5 sm:p-7 md:grid-cols-[1fr_18rem]">
       <div>
-        <h2 id="proxima" className="text-3xl font-semibold tracking-tight"><Link href={`/circuitos/${race.slug}`} className="hover:underline">Gran Premio de {race.gp}</Link></h2>
-        <p className="mt-1 text-muted">Próxima carrera, {race.circuit}</p>
+        <h3 id="proxima" className="text-3xl font-semibold tracking-tight"><Link href={`/circuitos/${race.slug}`} className="hover:underline">Gran Premio de {race.gp}</Link></h3>
+        <p className="mt-1 text-muted">{race.circuit}</p>
         {now > 0 && left === 0 ? <p className="mt-5 text-2xl font-semibold text-signal">En carrera</p> : (
           <div className="mt-5 flex gap-6" role="timer" aria-live="off">
             {parts.map(([n, label]) => (
