@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ApiNotice, Facts, Notice, Section, Skeleton, Table, TeamBadges, champion, formatDate, formatPos, plural, roleLabel, td, tdNum, th, thNum } from "@/components/ui";
+import { DriverPhoto } from "@/components/driver-photo";
+import { FavButton } from "@/components/favorite";
 import { drivers, getDriver } from "@/data/drivers";
 import { driverHistory } from "@/data/history";
 import { getTeam } from "@/data/teams";
@@ -22,13 +24,15 @@ export default async function Page(props: PageProps<"/pilotos/[slug]">) {
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+        <DriverPhoto slug={driver.slug} name={driver.name} className="h-44 w-36 rounded-md" sizes="144px" />
         {driver.number !== null && <span className="font-mono text-7xl font-semibold tabular-nums" style={{ color: getTeam(driver.teams[0])?.color }}>{driver.number}</span>}
         <div>
           <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">{driver.name}</h1>
           <p className="mt-2 text-lg text-muted"><TeamBadges slugs={driver.teams} /></p>
         </div>
       </div>
+      <div className="mt-6"><FavButton href={`/pilotos/${driver.slug}`} name={driver.name} /></div>
       <Facts items={[["Rol", roleLabel[driver.role]], ["Nacionalidad", driver.nationality], ["Nacimiento", formatDate(driver.birthDate)], ["Lugar", driver.birthPlace]]} />
       {driver.note && <p className="mt-6 max-w-2xl text-muted">{driver.note}</p>}
 

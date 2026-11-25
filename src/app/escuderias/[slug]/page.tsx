@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ApiNotice, DriverRow, Facts, Section, Skeleton, Table, champion, formatPos, plural, td, tdNum, th, thNum } from "@/components/ui";
+import { FavButton } from "@/components/favorite";
 import { drivers } from "@/data/drivers";
 import { teamHistory } from "@/data/history";
 import { getTeam, teams } from "@/data/teams";
@@ -28,6 +29,7 @@ export default async function Page(props: PageProps<"/escuderias/[slug]">) {
           <p className="mt-2 text-lg text-muted">{team.fullName}</p>
         </div>
       </div>
+      <div className="mt-6"><FavButton href={`/escuderias/${team.slug}`} name={team.name} /></div>
       <Facts items={[["Base", team.base], ["Chasis", team.chassis], ["Unidad de potencia", team.powerUnit], ["Linaje desde", team.eras[0].from]]} />
 
       <Section title="Pilotos 2026">

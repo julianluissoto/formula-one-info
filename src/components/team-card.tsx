@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { DriverPhoto } from "@/components/driver-photo";
+import { FavStar } from "@/components/favorite";
 import { TeamBadge } from "@/components/ui";
 import { suplentes, titulares } from "@/data/drivers";
 import type { Team } from "@/data/types";
@@ -17,13 +19,14 @@ export function TeamCard({ team }: { team: Team }) {
 
   return (
     <section className="flex flex-col overflow-hidden rounded-md border-t-4 bg-panel" style={{ borderColor: team.color }}>
-      <h2 className="px-4 pt-3 pb-2 text-lg font-semibold"><TeamBadge team={team} /></h2>
+      <h2 className="px-4 pt-3 pb-2 text-lg font-semibold"><TeamBadge team={team} /><FavStar href={`/escuderias/${team.slug}`} /></h2>
       <div className="grid grid-cols-2 divide-x divide-line border-y border-line">
         {main.map((x) => (
-          <Link key={x.slug} href={`/pilotos/${x.slug}`} className="min-w-0 px-4 py-4 transition-colors hover:bg-panel-hover">
-            <span className="block font-mono text-4xl font-semibold tabular-nums" style={{ color: team.color }}>{x.number}</span>
-            <span className="mt-2 block text-lg leading-tight font-medium">{x.name}</span>
-            <span className="text-sm text-muted">{x.nationality}</span>
+          <Link key={x.slug} href={`/pilotos/${x.slug}`} className="flex min-w-0 flex-col gap-3 px-4 py-4 transition-colors hover:bg-panel-hover sm:flex-row">
+            <DriverPhoto slug={x.slug} name="" className="h-28 w-22 shrink-0 rounded-md" sizes="88px" />
+            <span className="min-w-0"><span className="block font-mono text-4xl font-semibold tabular-nums" style={{ color: team.color }}>{x.number}</span>
+            <span className="mt-2 block text-lg leading-tight font-medium">{x.name}<FavStar href={`/pilotos/${x.slug}`} /></span>
+            <span className="text-sm text-muted">{x.nationality}</span></span>
           </Link>
         ))}
       </div>

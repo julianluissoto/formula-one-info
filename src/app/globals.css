@@ -72,3 +72,26 @@ html {
 @keyframes tyre-info {
   from { opacity: 0; transform: translateY(8px); }
 }
+
+/* Trazado: la línea se dibuja y después un punto da vueltas. */
+.track-car {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .track-draw {
+    stroke-dasharray: 1;
+    animation: track-draw 2.2s ease-in-out backwards;
+  }
+  .track-car {
+    display: block;
+    offset-rotate: 0deg;
+    animation: track-car 9s linear 2.2s infinite backwards;
+  }
+}
+@keyframes track-draw {
+  from { stroke-dashoffset: 1; }
+}
+@keyframes track-car {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}

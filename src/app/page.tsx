@@ -1,18 +1,39 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { Favorites } from "@/components/favorite";
+import { Logo } from "@/components/logo";
+import { NextRace } from "@/components/next-race";
+import { Track } from "@/components/track";
+import { RaceTyres } from "@/components/tyres";
 import { TeamCard } from "@/components/team-card";
 import { ApiNotice, Section, Skeleton, Table, TeamBadge, formatDate, formatPos, td, tdNum, th, thNum } from "@/components/ui";
-import { getDriverByJolpicaId, titulares } from "@/data/drivers";
-import { getTeamByJolpicaId, teams } from "@/data/teams";
+import { circuits } from "@/data/circuits";
+import { drivers, getDriverByJolpicaId, titulares } from "@/data/drivers";
+import { rounds } from "@/data/season";
+import { getTeam, getTeamByJolpicaId, teams } from "@/data/teams";
 import { getLastRace, getStandings } from "@/lib/jolpica";
+
+const upcoming = rounds.filter((r) => !r.results.length).flatMap((r) => {
+  const c = circuits.find((x) => x.round === r.round);
+  return c ? [{ slug: c.slug, gp: c.gp, circuit: c.name, sessions: r.sessions, track: <Track animated slug={c.slug} name={c.name} className="h-48 w-full" />, tyres: c.tyres && <RaceTyres compounds={c.tyres} compact /> }] : [];
+});
+
+const favorites = [
+  ...drivers.map((x) => ({ href: `/pilotos/${x.slug}`, name: x.name, detail: x.teams.map((t) => getTeam(t)?.name).join(" y "), color: getTeam(x.teams[0])!.color })),
+  ...teams.map((t) => ({ href: `/escuderias/${t.slug}`, name: t.name, detail: "Escudería", color: t.color })),
+];
 
 export default function Home() {
   return (
     <>
-      <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">Parrilla 2026</h1>
-      <p className="mt-4 max-w-xl text-lg text-muted">{teams.length} escuderías, {titulares.length} titulares y sus pilotos reserva.</p>
+      <h1 className="flex items-center gap-4 text-6xl font-semibold tracking-tight sm:text-7xl"><Logo className="h-20 shrink-0 sm:h-24" />F1 Info</h1>
+      <p className="mt-4 max-w-xl text-lg text-muted">La temporada 2026 en un solo lugar: {teams.length} escuderías, {titulares.length} titulares, circuitos y resultados.</p>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-2">
+      <NextRace races={upcoming} />
+      <Favorites items={favorites} />
+
+      <h2 className="mt-14 text-2xl font-semibold tracking-tight">Escuderías y pilotos</h2>
+      <div className="mt-4 grid gap-6 lg:grid-cols-2">
         {teams.map((team) => <TeamCard key={team.slug} team={team} />)}
       </div>
 

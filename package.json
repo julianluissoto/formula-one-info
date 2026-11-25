@@ -1,12 +1,13 @@
 {
-  "name": "f1-parrilla",
+  "name": "f1-info",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "datos": "node scripts/actualizar.mjs"
   },
   "dependencies": {
     "geist": "^1.9.2",
