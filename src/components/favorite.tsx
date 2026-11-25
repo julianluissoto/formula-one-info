@@ -43,7 +43,7 @@ function toggle(href: string) {
 export function FavButton({ href, name }: { href: string; name: string }) {
   const on = useFavorites().includes(href);
   return (
-    <button type="button" aria-pressed={on} aria-label={`Favorito: ${name}`} onClick={() => toggle(href)} className={`cursor-pointer rounded-md border px-4 py-2 text-sm transition-colors ${on ? "border-signal text-signal" : "border-line text-muted hover:text-ink"}`}>
+    <button type="button" aria-pressed={on} aria-label={`Favorito: ${name}`} onClick={() => toggle(href)} className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-signal text-signal" : "border-line text-muted hover:text-ink"}`}>
       {on ? "★ En favoritos" : "☆ Agregar a favoritos"}
     </button>
   );

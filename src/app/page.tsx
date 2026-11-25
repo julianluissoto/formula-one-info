@@ -1,8 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Favorites } from "@/components/favorite";
 import { Fold } from "@/components/fold";
-import { Logo } from "@/components/logo";
 import { NextRace } from "@/components/next-race";
 import { Track } from "@/components/track";
 import { RaceTyres } from "@/components/tyres";
@@ -16,7 +16,7 @@ import { getLastRace, getStandings } from "@/lib/jolpica";
 
 const upcoming = rounds.filter((r) => !r.results.length).flatMap((r) => {
   const c = circuits.find((x) => x.round === r.round);
-  return c ? [{ slug: c.slug, gp: c.gp, circuit: c.name, sessions: r.sessions, track: <Track animated slug={c.slug} name={c.name} className="h-48 w-full" />, tyres: c.tyres && <RaceTyres compounds={c.tyres} compact /> }] : [];
+  return c ? [{ slug: c.slug, gp: c.gp, circuit: c.name, record: c.record, sessions: r.sessions, track: <Track animated slug={c.slug} name={c.name} className="h-48 w-full" />, tyres: c.tyres && <RaceTyres compounds={c.tyres} compact /> }] : [];
 });
 
 const favorites = [
@@ -24,11 +24,40 @@ const favorites = [
   ...teams.map((t) => ({ href: `/escuderias/${t.slug}`, name: t.name, detail: "Escudería", color: t.color })),
 ];
 
+const cards = [
+  ["/escuderias", "Escuderías", "/autos/ferrari.jpg"],
+  ["/pilotos", "Pilotos", "/pilotos/franco-colapinto.jpg"],
+  ["/campeonato", "Campeonato", "/autos/mclaren.jpg"],
+  ["/monoplaza", "Monoplaza 2026", "/autos/mercedes.jpg"],
+];
+
+const shortcuts = [["/circuitos", "Circuitos"], ["/comparar", "Comparar pilotos"], ["/campeones", "Campeones"], ["/guia", "Guía 2026"], ["/buscar", "Buscar"]];
+
 export default function Home() {
   return (
     <>
-      <h1 className="flex items-center gap-4 text-6xl font-semibold tracking-tight sm:text-7xl"><Logo className="h-20 shrink-0 sm:h-24" />F1 Info</h1>
-      <p className="mt-4 max-w-xl text-lg text-muted">La temporada 2026 en un solo lugar: {teams.length} escuderías, {titulares.length} titulares, circuitos y resultados.</p>
+      <nav aria-label="Accesos rápidos" className="mb-6 flex flex-wrap gap-2">
+        {shortcuts.map(([href, label]) => <Link key={href} href={href} className="rounded-full bg-panel-hover px-4 py-2 text-sm font-bold transition-colors hover:bg-line">{label}</Link>)}
+      </nav>
+      <div className="grid gap-5 lg:grid-cols-[3fr_2fr]">
+        <div className="relative isolate flex min-h-80 items-end overflow-hidden rounded-md p-5 sm:min-h-[26rem] sm:p-7">
+          <Image src="/autos/alpine.jpg" alt="" fill preload sizes="(min-width: 1024px) 660px, 100vw" className="-z-1 object-cover" />
+          <span aria-hidden className="absolute inset-0 -z-1 bg-linear-to-t from-black via-black/60 to-transparent" />
+          <div>
+            <span className="rounded-sm bg-race px-2 py-0.5 text-xs font-bold uppercase">Temporada 2026</span>
+            <h1 className="mt-3">F1 Info</h1>
+            <p className="mt-2 max-w-xl text-lg">{teams.length} escuderías, {titulares.length} titulares, circuitos y resultados en un solo lugar.</p>
+          </div>
+        </div>
+        <ul className="grid grid-cols-2 gap-5">
+          {cards.map(([href, label, src]) => (
+            <li key={href}><Link href={href} className="group flex h-full flex-col overflow-hidden rounded-md bg-panel">
+              <span className="relative block min-h-28 flex-1 overflow-hidden"><Image src={src} alt="" fill sizes="(min-width: 1024px) 220px, 50vw" className="object-cover object-[50%_25%] transition-transform duration-300 group-hover:scale-105 motion-reduce:transition-none" /></span>
+              <span className="px-3 py-3 font-bold">{label}</span>
+            </Link></li>
+          ))}
+        </ul>
+      </div>
 
       <div className="mt-10">
         {upcoming.length > 0 && <Fold id="proxima" title="Próxima carrera" aside={`Gran Premio de ${upcoming[0].gp}`} defaultOpen><NextRace races={upcoming} /></Fold>}

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { DriverPhoto } from "@/components/driver-photo";
 import { FavStar } from "@/components/favorite";
-import { TeamBadge } from "@/components/ui";
+import { DriverName, TeamBadge } from "@/components/ui";
 import { suplentes, titulares } from "@/data/drivers";
 import type { Team } from "@/data/types";
 
@@ -19,14 +20,14 @@ export function TeamCard({ team }: { team: Team }) {
 
   return (
     <section className="flex flex-col overflow-hidden rounded-md border-t-4 bg-panel" style={{ borderColor: team.color }}>
-      <h3 className="px-4 pt-3 pb-2 text-lg font-semibold"><TeamBadge team={team} /><FavStar href={`/escuderias/${team.slug}`} /></h3>
+      <h3 className="px-4 pt-3 pb-2 wide text-lg font-bold"><TeamBadge team={team} /><FavStar href={`/escuderias/${team.slug}`} /></h3>
       <div className="grid grid-cols-2 divide-x divide-line border-y border-line">
         {main.map((x) => (
-          <Link key={x.slug} href={`/pilotos/${x.slug}`} className="flex min-w-0 flex-col gap-3 px-4 py-4 transition-colors hover:bg-panel-hover sm:flex-row">
-            <DriverPhoto slug={x.slug} name="" className="h-28 w-22 shrink-0 rounded-md" sizes="88px" />
-            <span className="min-w-0"><span className="block font-mono text-4xl font-semibold tabular-nums" style={{ color: team.color }}>{x.number}</span>
-            <span className="mt-2 block text-lg leading-tight font-medium">{x.name}<FavStar href={`/pilotos/${x.slug}`} /></span>
-            <span className="text-sm text-muted">{x.nationality}</span></span>
+          <Link key={x.slug} href={`/pilotos/${x.slug}`} className="team-grad flex min-h-56 min-w-0 flex-col p-4 transition-[filter] hover:brightness-115" style={{ "--team": team.color } as CSSProperties}>
+            <DriverPhoto slug={x.slug} name="" className="fade-left !absolute inset-y-0 right-0 -z-1 w-3/5" sizes="(min-width: 1024px) 170px, 30vw" />
+            <span className="flex h-full min-w-0 flex-col items-start"><span className="block font-mono text-4xl font-black italic tabular-nums">{x.number}</span>
+            <span className="wide mt-auto block pt-16 text-base leading-tight [text-shadow:0_1px_6px_#000]"><DriverName name={x.name} /><FavStar href={`/pilotos/${x.slug}`} /></span>
+            <span className="text-sm [text-shadow:0_1px_6px_#000]">{x.nationality}</span></span>
           </Link>
         ))}
       </div>

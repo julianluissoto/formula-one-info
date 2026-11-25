@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSyncExternalStore, type ReactNode } from "react";
 
-type Race = { slug: string; gp: string; circuit: string; sessions: { name: string; at: string }[]; track: ReactNode; tyres: ReactNode };
+type Race = { slug: string; gp: string; circuit: string; record: [string, string, number]; sessions: { name: string; at: string }[]; track: ReactNode; tyres: ReactNode };
 
 const tick = (cb: () => void) => {
   const t = setInterval(cb, 1000);
@@ -45,7 +45,7 @@ export function NextRace({ races }: { races: Race[] }) {
         </ul>
         <p className="mt-3 text-sm text-muted">Hora argentina</p>
       </div>
-      <div className="flex flex-col items-center justify-center gap-5">{race.track}{race.tyres}</div>
+      <div className="flex flex-col items-center justify-center gap-5">{race.track}<p className="text-center"><span className="block text-sm text-muted">Récord de vuelta</span><span className="block font-mono text-2xl font-semibold tabular-nums">{race.record[0]}</span><span className="block text-sm text-muted">{race.record[1]}, {race.record[2]}</span></p>{race.tyres}</div>
     </section>
   );
 }

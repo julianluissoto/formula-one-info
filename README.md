@@ -10,6 +10,7 @@ Web personal sobre la temporada 2026 de Fórmula 1: escuderías, pilotos, circui
 | `/escuderias` y `/escuderias/[slug]` | Ficha, pilotos, línea de tiempo de nombres e historial de constructores |
 | `/pilotos` y `/pilotos/[slug]` | Ficha, historial en F1 de los últimos 10 años, karting y trayectoria en otras categorías |
 | `/circuitos` y `/circuitos/[slug]` | Calendario, trazados, datos técnicos, récords y banner animado de neumáticos |
+| `/monoplaza` | Plano técnico interactivo y especificaciones del auto 2026 |
 | `/campeonato` | Gráfico y tabla de puntos por ronda |
 | `/comparar` | Dos pilotos frente a frente |
 | `/campeones` | Campeones desde 1950 |
@@ -40,7 +41,7 @@ Si TypeScript no reconoce `PageProps` o `LayoutProps`, corré `npx next typegen`
 
 ## Tecnologías
 
-Next.js 16.4 (App Router y Cache Components), React 19, TypeScript, Tailwind CSS 4 y las fuentes Geist.
+Next.js 16.4 (App Router y Cache Components), React 19, TypeScript, Tailwind CSS 4 y fuentes libres (Archivo y Titillium Web).
 
 ## Estructura
 
@@ -69,6 +70,7 @@ public/
 | `circuits.ts`, `tracks.json` | Calendario y trazados |
 | `season.json` | Resultados y horarios de la temporada (generado) |
 | `champions.json` | Campeones hasta 2025 |
+| `car.ts` | Especificaciones del monoplaza |
 | `tyres.ts` | Compuestos de neumáticos |
 | `photo-credits.json` | Créditos de las fotos |
 
@@ -98,6 +100,7 @@ Corré `npm run datos` y volvé a compilar. Actualiza resultados, clasificación
 - **Fotos de los autos:** Liauzh en Wikimedia Commons, CC BY 4.0.
 - **Fotos de los pilotos:** Wikimedia Commons; autor y licencia de cada una en `/creditos`. La de Pierre Gasly es de Motorsport.com, con derechos reservados: reemplazarla o pedir permiso antes de publicar.
 - **Trazados:** [f1-circuits](https://github.com/bacinger/f1-circuits), MIT.
+- **Monoplaza:** reglamento técnico FIA 2026 (edición 20), Formula1.com y Wikipedia; el plano es propio.
 - **Neumáticos:** información de [Pirelli](https://www.pirelli.com/tires/en-us/motorsport/car/formula-1); los dibujos son propios.
 - **Logos:** descargados de Wikimedia Commons; son marcas registradas de sus dueños.
 

@@ -27,6 +27,7 @@ export default function Page() {
                   <span className="block font-medium">{c.name}</span>
                   <span className="block text-sm text-muted">GP de {c.gp}, {formatDate(c.date)}</span>
                   <span className="mt-2 block text-sm text-muted tabular-nums">{c.km.toLocaleString("es-AR", { minimumFractionDigits: 3 })} km, {c.turns} curvas{c.tyres && `, ${c.tyres[0]} a ${c.tyres[2]}`}</span>
+                  <span className="mt-2 block text-sm"><span className="text-muted">Récord de vuelta: </span><span className="font-semibold tabular-nums">{c.record[0]}</span><span className="text-muted">, {c.record[1]} ({c.record[2]})</span></span>
                   {winner && <span className="mt-1 block text-sm">Ganó {driverName(winner.d)}</span>}
                   {c.sprint && <span className="mt-1 block text-sm text-signal">Con sprint</span>}
                 </span>
