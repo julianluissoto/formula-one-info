@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@theme static {
+  --color-asphalt: #16181c;
+  --color-panel: #202329;
+  --color-panel-hover: #2a2e36;
+  --color-line: #343942;
+  --color-ink: #f1f2f4;
+  --color-muted: #a3aab6;
+  --color-signal: #ffd23f;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-asphalt);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+h1, h2 {
+  text-wrap: balance;
+}
+
+/* Cajón de largada: línea frontal y laterales, como los pintados en la pista. */
+.slot {
+  border: 2px solid var(--color-line);
+  border-bottom: 0;
+  border-top-color: var(--slot);
+  transition: background-color 0.15s;
+}
+.slot:hover {
+  background: var(--color-panel);
+}
+
+/* Banner de neumáticos: ocupa todo el ancho y entran rodando, uno atrás del otro. */
+.tyre-banner {
+  margin-inline: calc(50% - 50vw);
+  overflow: hidden;
+}
+html {
+  overflow-x: clip;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tyre-travel {
+    animation: tyre-travel 1.7s cubic-bezier(0.16, 0.8, 0.3, 1) calc(var(--i) * 0.28s) backwards;
+  }
+  .tyre-spin {
+    animation: tyre-spin 1.7s cubic-bezier(0.16, 0.8, 0.3, 1) calc(var(--i) * 0.28s) backwards;
+  }
+  .tyre-info {
+    animation: tyre-info 0.5s ease-out calc(var(--i) * 0.28s + 1.2s) backwards;
+  }
+}
+@keyframes tyre-travel {
+  from { transform: translateX(100vw); }
+}
+@keyframes tyre-spin {
+  from { transform: rotate(1080deg); }
+}
+@keyframes tyre-info {
+  from { opacity: 0; transform: translateY(8px); }
+}
