@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, type CSSProperties } from "react";
 import { ApiNotice, DriverRow, Facts, Section, Skeleton, Table, champion, formatPos, plural, td, tdNum, th, thNum } from "@/components/ui";
 import { FavButton } from "@/components/favorite";
 import { drivers } from "@/data/drivers";
@@ -22,18 +23,19 @@ export default async function Page(props: PageProps<"/escuderias/[slug]">) {
 
   return (
     <>
-      <div className="flex gap-5">
-        <span aria-hidden className="w-2 shrink-0" style={{ background: team.color }} />
+      <div className="team-grad flex min-h-64 items-end rounded-md p-5 sm:min-h-96 sm:p-8" style={{ "--team": team.color } as CSSProperties}>
+        <Image src={`/autos/${team.slug}.jpg`} alt={`${team.name} ${team.chassis}`} fill preload sizes="(min-width: 1152px) 1112px, 100vw" className="-z-1 object-cover" />
+        <span aria-hidden className="absolute inset-0 -z-1" style={{ background: `linear-gradient(to top, color-mix(in oklab, ${team.color} 30%, #000), transparent 75%)` }} />
         <div>
           <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">{team.name}</h1>
-          <p className="mt-2 text-lg text-muted">{team.fullName}</p>
+          <p className="mt-2 text-lg">{team.fullName}</p>
         </div>
       </div>
       <div className="mt-6"><FavButton href={`/escuderias/${team.slug}`} name={team.name} /></div>
       <Facts items={[["Base", team.base], ["Chasis", team.chassis], ["Unidad de potencia", team.powerUnit], ["Linaje desde", team.eras[0].from]]} />
 
       <Section title="Pilotos 2026">
-        <div className="grid gap-3 sm:grid-cols-2">{own.map((x) => <DriverRow key={x.slug} driver={x} />)}</div>
+        <div className="grid gap-5 md:grid-cols-2">{own.map((x) => <DriverRow key={x.slug} driver={x} />)}</div>
         {own.every((x) => x.role === "titular") && <p className="mt-3 text-sm text-muted">Sin reserva oficial.</p>}
       </Section>
 

@@ -4,7 +4,7 @@ import { suplentes, titulares } from "@/data/drivers";
 
 export const metadata: Metadata = { title: "Pilotos" };
 
-const grid = "grid gap-3 sm:grid-cols-2 lg:grid-cols-3";
+const grid = "grid gap-5 md:grid-cols-2";
 
 export default function Page() {
   return (

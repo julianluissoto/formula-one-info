@@ -13,7 +13,7 @@ Web personal de Fórmula 1 (UI en **español rioplatense**) con:
 
 ## Stack y comandos
 
-- Next.js **16.4** (App Router, Turbopack), React 19, TypeScript, Tailwind v4, fuentes del paquete `geist` (locales, sin Google Fonts).
+- Next.js **16.4** (App Router, Turbopack), React 19, TypeScript, Tailwind v4, fuentes locales `@fontsource` (Archivo para títulos, Titillium Web para texto; Geist Mono solo en el plano).
 - `npm run dev` · `npm run build` · `npm run lint` · `npx tsc --noEmit`
 - Si TypeScript se queja de `PageProps<"/ruta">` / `LayoutProps`, correr `npx next typegen` (los tipos de rutas se generan).
 
@@ -80,6 +80,8 @@ src/
 - `npm run datos` (`scripts/actualizar.mjs`) genera `src/data/season.json`; alimenta `/campeonato`, `/comparar`, resultados de `/circuitos/[slug]` y la próxima carrera. Al cerrar la temporada actualiza `history-*.json`.
 - Favoritos en `localStorage` (`components/favorite.tsx`). La hora actual solo se lee en el cliente (`components/next-race.tsx`).
 - `/campeones`, `/guia`, `/buscar`, fotos de pilotos, PWA (`manifest.ts`) e imagen social.
+- `/monoplaza`: datos en `data/car.ts`, plano técnico en SVG (unidades en mm) en `components/blueprint.tsx`.
+- Estilo inspirado en F1.com: rojo `race`, franja de próxima carrera (`race-strip.tsx`), tarjetas `.team-grad`. No usar su logo, tipografía ni fotos.
 - En la UI se dice "piloto reserva", nunca "banco".
 
 ## Pendientes (por prioridad)

@@ -20,7 +20,7 @@ export function Search({ items }: { items: Item[] }) {
         <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Nombre, número, país o escudería" className="w-full rounded-md border border-line bg-panel px-4 py-3 text-lg placeholder:text-muted" />
       </label>
       <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Filtrar por tipo">
-        {kinds.map((k) => <button key={k} type="button" aria-pressed={kind === k} onClick={() => setKind(k)} className={`cursor-pointer rounded-md border px-3 py-1.5 text-sm ${kind === k ? "border-signal text-signal" : "border-line text-muted hover:text-ink"}`}>{k}</button>)}
+        {kinds.map((k) => <button key={k} type="button" aria-pressed={kind === k} onClick={() => setKind(k)} className={`cursor-pointer rounded-full border px-3 py-1.5 text-sm ${kind === k ? "border-race bg-race text-white" : "border-line text-muted hover:text-ink"}`}>{k}</button>)}
       </div>
       <p className="mt-6 text-sm text-muted" role="status">{found.length === 0 ? "Sin resultados. Probá con otra palabra o filtro." : `${found.length} ${found.length === 1 ? "resultado" : "resultados"}`}</p>
       <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

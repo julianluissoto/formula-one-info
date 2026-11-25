@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, type CSSProperties } from "react";
 import { ApiNotice, Facts, Notice, Section, Skeleton, Table, TeamBadges, champion, formatDate, formatPos, plural, roleLabel, td, tdNum, th, thNum } from "@/components/ui";
 import { DriverPhoto } from "@/components/driver-photo";
 import { FavButton } from "@/components/favorite";
@@ -24,12 +24,12 @@ export default async function Page(props: PageProps<"/pilotos/[slug]">) {
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-        <DriverPhoto slug={driver.slug} name={driver.name} className="h-44 w-36 rounded-md" sizes="144px" />
-        {driver.number !== null && <span className="font-mono text-7xl font-semibold tabular-nums" style={{ color: getTeam(driver.teams[0])?.color }}>{driver.number}</span>}
-        <div>
+      <div className="team-grad flex min-h-64 items-center rounded-md p-5 sm:min-h-96 sm:p-8" style={{ "--team": getTeam(driver.teams[0])?.color } as CSSProperties}>
+        <DriverPhoto slug={driver.slug} name={driver.name} className="fade-left !absolute inset-y-0 right-0 -z-1 w-1/2 sm:w-[32%]" sizes="(min-width: 640px) 450px, 50vw" />
+        <div className="max-w-[62%]">
           <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">{driver.name}</h1>
-          <p className="mt-2 text-lg text-muted"><TeamBadges slugs={driver.teams} /></p>
+          <p className="mt-2 text-lg"><TeamBadges slugs={driver.teams} /></p>
+          {driver.number !== null && <span className="wide mt-3 block text-6xl font-black italic tabular-nums">{driver.number}</span>}
         </div>
       </div>
       <div className="mt-6"><FavButton href={`/pilotos/${driver.slug}`} name={driver.name} /></div>

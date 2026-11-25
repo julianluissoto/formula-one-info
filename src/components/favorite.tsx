@@ -1,5 +1,6 @@
 "use client";
 
+import { Fold } from "@/components/fold";
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
 
@@ -42,7 +43,7 @@ function toggle(href: string) {
 export function FavButton({ href, name }: { href: string; name: string }) {
   const on = useFavorites().includes(href);
   return (
-    <button type="button" aria-pressed={on} aria-label={`Favorito: ${name}`} onClick={() => toggle(href)} className={`cursor-pointer rounded-md border px-4 py-2 text-sm transition-colors ${on ? "border-signal text-signal" : "border-line text-muted hover:text-ink"}`}>
+    <button type="button" aria-pressed={on} aria-label={`Favorito: ${name}`} onClick={() => toggle(href)} className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-signal text-signal" : "border-line text-muted hover:text-ink"}`}>
       {on ? "★ En favoritos" : "☆ Agregar a favoritos"}
     </button>
   );
@@ -57,8 +58,7 @@ export function Favorites({ items }: { items: { href: string; name: string; deta
   const mine = items.filter((x) => favs.includes(x.href));
   if (!mine.length) return null;
   return (
-    <section className="mt-12">
-      <h2 className="mb-4 text-2xl font-semibold tracking-tight">Tus favoritos</h2>
+    <Fold id="favoritos" title="Tus favoritos" defaultOpen>
       <ul className="flex flex-wrap gap-3">
         {mine.map((x) => (
           <li key={x.href}>
@@ -69,6 +69,6 @@ export function Favorites({ items }: { items: { href: string; name: string; deta
           </li>
         ))}
       </ul>
-    </section>
+    </Fold>
   );
 }

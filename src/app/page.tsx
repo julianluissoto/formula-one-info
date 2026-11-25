@@ -1,12 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Favorites } from "@/components/favorite";
-import { Logo } from "@/components/logo";
+import { Fold } from "@/components/fold";
 import { NextRace } from "@/components/next-race";
 import { Track } from "@/components/track";
 import { RaceTyres } from "@/components/tyres";
 import { TeamCard } from "@/components/team-card";
-import { ApiNotice, Section, Skeleton, Table, TeamBadge, formatDate, formatPos, td, tdNum, th, thNum } from "@/components/ui";
+import { ApiNotice, Skeleton, Table, TeamBadge, formatDate, formatPos, td, tdNum, th, thNum } from "@/components/ui";
 import { circuits } from "@/data/circuits";
 import { drivers, getDriverByJolpicaId, titulares } from "@/data/drivers";
 import { rounds } from "@/data/season";
@@ -15,7 +16,7 @@ import { getLastRace, getStandings } from "@/lib/jolpica";
 
 const upcoming = rounds.filter((r) => !r.results.length).flatMap((r) => {
   const c = circuits.find((x) => x.round === r.round);
-  return c ? [{ slug: c.slug, gp: c.gp, circuit: c.name, sessions: r.sessions, track: <Track animated slug={c.slug} name={c.name} className="h-48 w-full" />, tyres: c.tyres && <RaceTyres compounds={c.tyres} compact /> }] : [];
+  return c ? [{ slug: c.slug, gp: c.gp, circuit: c.name, record: c.record, sessions: r.sessions, track: <Track animated slug={c.slug} name={c.name} className="h-48 w-full" />, tyres: c.tyres && <RaceTyres compounds={c.tyres} compact /> }] : [];
 });
 
 const favorites = [
@@ -23,30 +24,60 @@ const favorites = [
   ...teams.map((t) => ({ href: `/escuderias/${t.slug}`, name: t.name, detail: "Escudería", color: t.color })),
 ];
 
+const cards = [
+  ["/escuderias", "Escuderías", "/autos/ferrari.jpg"],
+  ["/pilotos", "Pilotos", "/pilotos/franco-colapinto.jpg"],
+  ["/campeonato", "Campeonato", "/autos/mclaren.jpg"],
+  ["/monoplaza", "Monoplaza 2026", "/autos/mercedes.jpg"],
+];
+
+const shortcuts = [["/circuitos", "Circuitos"], ["/comparar", "Comparar pilotos"], ["/campeones", "Campeones"], ["/guia", "Guía 2026"], ["/buscar", "Buscar"]];
+
 export default function Home() {
   return (
     <>
-      <h1 className="flex items-center gap-4 text-6xl font-semibold tracking-tight sm:text-7xl"><Logo className="h-20 shrink-0 sm:h-24" />F1 Info</h1>
-      <p className="mt-4 max-w-xl text-lg text-muted">La temporada 2026 en un solo lugar: {teams.length} escuderías, {titulares.length} titulares, circuitos y resultados.</p>
-
-      <NextRace races={upcoming} />
-      <Favorites items={favorites} />
-
-      <h2 className="mt-14 text-2xl font-semibold tracking-tight">Escuderías y pilotos</h2>
-      <div className="mt-4 grid gap-6 lg:grid-cols-2">
-        {teams.map((team) => <TeamCard key={team.slug} team={team} />)}
+      <nav aria-label="Accesos rápidos" className="mb-6 flex flex-wrap gap-2">
+        {shortcuts.map(([href, label]) => <Link key={href} href={href} className="rounded-full bg-panel-hover px-4 py-2 text-sm font-bold transition-colors hover:bg-line">{label}</Link>)}
+      </nav>
+      <div className="grid gap-5 lg:grid-cols-[3fr_2fr]">
+        <div className="relative isolate flex min-h-80 items-end overflow-hidden rounded-md p-5 sm:min-h-[26rem] sm:p-7">
+          <Image src="/autos/alpine.jpg" alt="" fill preload sizes="(min-width: 1024px) 660px, 100vw" className="-z-1 object-cover" />
+          <span aria-hidden className="absolute inset-0 -z-1 bg-linear-to-t from-black via-black/60 to-transparent" />
+          <div>
+            <span className="rounded-sm bg-race px-2 py-0.5 text-xs font-bold uppercase">Temporada 2026</span>
+            <h1 className="mt-3">F1 Info</h1>
+            <p className="mt-2 max-w-xl text-lg">{teams.length} escuderías, {titulares.length} titulares, circuitos y resultados en un solo lugar.</p>
+          </div>
+        </div>
+        <ul className="grid grid-cols-2 gap-5">
+          {cards.map(([href, label, src]) => (
+            <li key={href}><Link href={href} className="group flex h-full flex-col overflow-hidden rounded-md bg-panel">
+              <span className="relative block min-h-28 flex-1 overflow-hidden"><Image src={src} alt="" fill sizes="(min-width: 1024px) 220px, 50vw" className="object-cover object-[50%_25%] transition-transform duration-300 group-hover:scale-105 motion-reduce:transition-none" /></span>
+              <span className="px-3 py-3 font-bold">{label}</span>
+            </Link></li>
+          ))}
+        </ul>
       </div>
 
-      <Suspense fallback={<Section title="Campeonatos"><Skeleton /></Section>}>
-        <Live />
-      </Suspense>
+      <div className="mt-10">
+        {upcoming.length > 0 && <Fold id="proxima" title="Próxima carrera" aside={`Gran Premio de ${upcoming[0].gp}`} defaultOpen><NextRace races={upcoming} /></Fold>}
+        <Favorites items={favorites} />
+        <Fold id="escuderias" title="Escuderías y pilotos" aside={`${teams.length} escuderías`}>
+          <div className="grid gap-6 lg:grid-cols-2">
+            {teams.map((team) => <TeamCard key={team.slug} team={team} />)}
+          </div>
+        </Fold>
+        <Suspense fallback={<Skeleton />}>
+          <Live />
+        </Suspense>
+      </div>
     </>
   );
 }
 
 async function Live() {
   const [s, race] = await Promise.all([getStandings(), getLastRace()]);
-  if (!s) return <Section title="Campeonatos"><ApiNotice /></Section>;
+  if (!s) return <Fold id="campeonatos" title="Campeonatos" defaultOpen><ApiNotice /></Fold>;
 
   const official = new Set(titulares.map((x) => x.jolpicaId));
   const subs = s.drivers.filter((x) => !official.has(x.Driver.driverId));
@@ -64,7 +95,7 @@ async function Live() {
   return (
     <>
       {subs.length > 0 && (
-        <Section title="Corrieron como reemplazo" aside={race ? `Última carrera: ronda ${race.round}, ${formatDate(race.date)}` : undefined}>
+        <Fold id="reemplazos" title="Corrieron como reemplazo" aside={race ? `Última carrera: ronda ${race.round}, ${formatDate(race.date)}` : undefined}>
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {subs.map((x) => (
               <li key={x.Driver.driverId} className="rounded-md bg-panel px-4 py-3">
@@ -74,10 +105,9 @@ async function Live() {
               </li>
             ))}
           </ul>
-        </Section>
+        </Fold>
       )}
-      <div className="grid items-start gap-x-10 lg:grid-cols-[3fr_2fr]">
-        <Section title="Pilotos" aside={aside}>
+        <Fold id="pilotos" title="Campeonato de pilotos" aside={aside}>
           <Table>
             <thead><tr><th className={th}>Pos.</th><th className={th}>Piloto</th><th className={th}>Escudería</th><th className={thNum}>Vict.</th><th className={thNum}>Puntos</th></tr></thead>
             <tbody>{s.drivers.map((x) => (
@@ -90,8 +120,8 @@ async function Live() {
               </tr>
             ))}</tbody>
           </Table>
-        </Section>
-        <Section title="Constructores" aside={aside}>
+        </Fold>
+        <Fold id="constructores" title="Campeonato de constructores" aside={aside}>
           <Table>
             <thead><tr><th className={th}>Pos.</th><th className={th}>Escudería</th><th className={thNum}>Vict.</th><th className={thNum}>Puntos</th></tr></thead>
             <tbody>{s.constructors.map((x) => (
@@ -103,8 +133,7 @@ async function Live() {
               </tr>
             ))}</tbody>
           </Table>
-        </Section>
-      </div>
+        </Fold>
     </>
   );
 }

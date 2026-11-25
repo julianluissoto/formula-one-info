@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Titillium Web", sans-serif;
+  --font-mono: "Archivo Variable", sans-serif;
 }
 
 @theme static {
-  --color-asphalt: #16181c;
-  --color-panel: #202329;
-  --color-panel-hover: #2a2e36;
-  --color-line: #343942;
+  --color-asphalt: #15151e;
+  --color-panel: #20202b;
+  --color-panel-hover: #2c2c3a;
+  --color-line: #3a3a48;
   --color-ink: #f1f2f4;
   --color-muted: #a3aab6;
-  --color-signal: #ffd23f;
+  --color-signal: #ff564d;
+  --color-race: #e10600;
 }
 
 :root {
@@ -29,19 +30,52 @@ body {
   outline-offset: 2px;
 }
 
-h1, h2 {
+/* Títulos anchos y en mayúscula. Sin capa, para ganarles a las utilidades. */
+h1, h2, [role="heading"] {
+  font-family: "Archivo Variable", sans-serif;
+  font-stretch: 125%;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   text-wrap: balance;
 }
-
-/* Cajón de largada: línea frontal y laterales, como los pintados en la pista. */
-.slot {
-  border: 2px solid var(--color-line);
-  border-bottom: 0;
-  border-top-color: var(--slot);
-  transition: background-color 0.15s;
+h1 {
+  font-size: clamp(1.625rem, 5vw, 2.75rem);
+  line-height: 1.1;
 }
-.slot:hover {
-  background: var(--color-panel);
+h2, [role="heading"] {
+  font-size: clamp(1.125rem, 2.6vw, 1.625rem);
+}
+.font-mono, .wide {
+  font-family: "Archivo Variable", sans-serif;
+  font-stretch: 112%;
+}
+
+/* Cabecera con franjas diagonales. */
+.stripes {
+  background:
+    linear-gradient(to bottom, transparent 20%, var(--color-asphalt)),
+    repeating-linear-gradient(118deg, transparent 0 150px, #ffffff12 150px 172px, transparent 172px 182px, #ffffff0c 182px 204px);
+}
+
+/* Tarjeta con el color de la escudería y una trama de puntos que se abre hacia la derecha. */
+.team-grad {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(100deg, color-mix(in oklab, var(--team) 50%, #000) 35%, color-mix(in oklab, var(--team) 88%, #000));
+  color: #fff;
+}
+.team-grad::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(#0006 1px, transparent 1.4px) 0 0 / 5px 5px;
+  mask-image: linear-gradient(100deg, transparent 40%, #000);
+}
+.fade-left {
+  mask-image: linear-gradient(to right, transparent, #000 45%);
 }
 
 /* Banner de neumáticos: ocupa todo el ancho y entran rodando, uno atrás del otro. */
@@ -94,4 +128,52 @@ html {
 @keyframes track-car {
   from { offset-distance: 0%; }
   to { offset-distance: 100%; }
+}
+
+/* Plano técnico del monoplaza. Las unidades de los SVG son milímetros del auto. */
+.blueprint {
+  --bp: #cfe2ff;
+  --color-signal: #ffd23f;
+  padding: 1rem;
+  background-color: #0d2f63;
+  background-image:
+    linear-gradient(#ffffff14 1px, transparent 1px), linear-gradient(90deg, #ffffff14 1px, transparent 1px),
+    linear-gradient(#ffffff0a 1px, transparent 1px), linear-gradient(90deg, #ffffff0a 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  color: var(--bp);
+}
+.blueprint figcaption { font-size: 0.875rem; font-weight: 500; }
+.blueprint figure svg { --fs: 100px; display: block; width: 100%; fill: none; stroke: var(--bp); stroke-linejoin: round; stroke-linecap: round; }
+.blueprint figure svg.bp-small { --fs: 84px; }
+.blueprint svg :is(path, line, circle, rect, ellipse) { vector-effect: non-scaling-stroke; stroke-width: 1.4px; }
+.blueprint text { font-family: var(--font-geist-mono); font-size: var(--fs); fill: currentColor; stroke: none; }
+.blueprint .bp-part { cursor: pointer; }
+.blueprint .bp-fill { fill: #143d7a; }
+.blueprint .bp-solid { fill: #0a2650; }
+.blueprint .bp-hit { fill: #ffffff0d; }
+.blueprint .bp-part .bp-thin { stroke-width: 0.7px; }
+.blueprint .bp-dash, .blueprint .bp-inside * { stroke-dasharray: 5 3; }
+.blueprint .bp-inside * { fill: #ffffff0f; }
+.blueprint .bp-part:hover { stroke: #fff; }
+.blueprint .bp-on, .blueprint .bp-part.bp-on:hover { stroke: var(--color-signal); color: var(--color-signal); }
+.blueprint .bp-inside.bp-on * { fill: #ffd23f33; stroke-dasharray: none; }
+.blueprint .bp-axis { stroke-width: 0.7px; stroke-dasharray: 14 4 3 4; opacity: 0.7; }
+.blueprint .bp-dim { pointer-events: none; }
+.blueprint .bp-dim line { stroke-width: 1px; }
+.blueprint .bp-dim .bp-ref { stroke-width: 0.6px; opacity: 0.6; }
+.blueprint .bp-call { cursor: pointer; }
+.blueprint .bp-call line { stroke-width: 0.8px; }
+.blueprint .bp-dot { fill: currentColor; }
+.blueprint .bp-num { r: calc(var(--fs) * 0.85); fill: #0a2650; }
+.blueprint .bp-block { align-self: end; border: 1px solid var(--bp); background: #0d2f63; }
+.blueprint .bp-block > div { display: grid; grid-template-columns: 8.5rem 1fr; padding: 0.35rem 0.6rem; font-size: 0.8125rem; }
+.blueprint .bp-block > div + div { border-top: 1px solid #cfe2ff55; }
+.blueprint .bp-block dd { font-weight: 600; color: #fff; }
+.blueprint .bp-block small { display: block; font-weight: 400; color: var(--bp); }
+@media (prefers-reduced-motion: no-preference) {
+  .blueprint .bp-move { transition: transform 0.5s ease-in-out; }
+}
+@media (max-width: 640px) {
+  .blueprint { padding: 0.75rem; }
+  .blueprint figure svg:not(.bp-small) { --fs: 190px; }
 }

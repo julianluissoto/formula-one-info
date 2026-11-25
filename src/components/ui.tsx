@@ -1,11 +1,11 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { DriverPhoto } from "@/components/driver-photo";
 import { FavStar } from "@/components/favorite";
 import { getTeam } from "@/data/teams";
 import type { Driver, Team } from "@/data/types";
 
-const thBase = "px-3 py-2 text-xs font-medium text-muted whitespace-nowrap";
+const thBase = "px-3 py-3 text-xs font-bold text-muted uppercase whitespace-nowrap";
 const tdBase = "px-3 py-2 tabular-nums border-t border-line align-top";
 export const th = `${thBase} text-left`;
 export const thNum = `${thBase} text-right`;
@@ -54,17 +54,24 @@ export const TeamBadges = ({ slugs }: { slugs: string[] }) => (
   </span>
 );
 
+export function DriverName({ name }: { name: string }) {
+  const [first, ...rest] = name.split(" ");
+  return <>{first} <b className="block font-extrabold">{rest.join(" ")}</b></>;
+}
+
 export function DriverRow({ driver }: { driver: Driver }) {
+  const team = getTeam(driver.teams[0]);
   return (
-    <Link href={`/pilotos/${driver.slug}`} className="flex items-center gap-4 rounded-md bg-panel px-4 py-3 transition-colors hover:bg-panel-hover">
-      <span className="w-10 shrink-0 font-mono text-2xl font-semibold tabular-nums" style={{ color: getTeam(driver.teams[0])?.color }}>{driver.number ?? "–"}</span>
-      <DriverPhoto slug={driver.slug} name="" className="size-12 shrink-0 rounded-full" sizes="48px" />
-      <span className="min-w-0">
-        <span className="block font-medium">{driver.name}<FavStar href={`/pilotos/${driver.slug}`} /></span>
-        <span className="block text-sm text-muted">
+    <Link href={`/pilotos/${driver.slug}`} className="team-grad flex min-h-60 rounded-md p-4 transition-[filter] hover:brightness-115" style={{ "--team": team?.color } as CSSProperties}>
+      <DriverPhoto slug={driver.slug} name="" className="fade-left !absolute inset-y-0 right-0 -z-1 w-[45%]" sizes="(min-width: 1024px) 270px, 50vw" />
+      <span className="max-w-[58%] min-w-0">
+        <span className="wide block text-lg leading-tight"><DriverName name={driver.name} /></span>
+        <span className="mt-1 block text-sm font-semibold">
           {driver.teams.map((s) => getTeam(s)?.name).join(" y ")}
           {driver.role !== "titular" && `, ${driver.role}`}
         </span>
+        {driver.number !== null && <span className="wide mt-2 block text-4xl font-black italic tabular-nums">{driver.number}</span>}
+        <span className="mt-2 block text-sm">{driver.nationality}<FavStar href={`/pilotos/${driver.slug}`} /></span>
       </span>
     </Link>
   );
