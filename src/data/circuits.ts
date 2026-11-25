@@ -13,7 +13,7 @@ const mid: Circuit["tyres"] = ["C2", "C3", "C4"];
 const hard: Circuit["tyres"] = ["C1", "C2", "C3"];
 
 // Calendario: Jolpica. Trazado, récords y compuestos: Wikipedia (artículos de cada circuito y GP, 25/11/2026).
-// Récord = vuelta rápida en carrera con el trazado actual. Abu Dhabi: compuestos 2026 sin confirmar en las fuentes.
+// Récord = vuelta rápida en carrera con el trazado actual. Abu Dhabi: compuestos según Tyrepress y Motorsport.com (11/2026).
 export const circuits: Circuit[] = [
   c(1, "2026-03-08", false, "Australia", "albert-park", "Albert Park", "Melbourne", "Australia", callejero, 1953, 5.278, 14, 58, 306.124, ["1:19.813", "Charles Leclerc", 2024], soft),
   c(2, "2026-03-15", true, "China", "shanghai", "Circuito Internacional de Shanghái", "Shanghái", "China", permanente, 2004, 5.451, 16, 56, 305.066, ["1:32.238", "Michael Schumacher", 2004], mid),
@@ -37,7 +37,7 @@ export const circuits: Circuit[] = [
   c(20, "2026-11-08", false, "Brasil", "interlagos", "Autódromo José Carlos Pace (Interlagos)", "San Pablo", "Brasil", permanente, 1940, 4.309, 15, 71, 305.879, ["1:10.540", "Valtteri Bottas", 2018], soft),
   c(21, "2026-11-22", false, "Las Vegas", "las-vegas", "Las Vegas Strip", "Las Vegas", "Estados Unidos", callejero, 2023, 6.201, 17, 50, 309.958, ["1:33.365", "Max Verstappen", 2025], soft),
   c(22, "2026-11-29", false, "Catar", "lusail", "Circuito Internacional de Lusail", "Lusail", "Catar", permanente, 2004, 5.419, 16, 57, 308.611, ["1:22.384", "Lando Norris", 2024], hard),
-  c(23, "2026-12-06", false, "Abu Dabi", "yas-marina", "Yas Marina", "Abu Dabi", "Emiratos Árabes Unidos", permanente, 2009, 5.281, 16, 58, 306.183, ["1:25.637", "Kevin Magnussen", 2024], null),
+  c(23, "2026-12-06", false, "Abu Dabi", "yas-marina", "Yas Marina", "Abu Dabi", "Emiratos Árabes Unidos", permanente, 2009, 5.281, 16, 58, 306.183, ["1:25.637", "Kevin Magnussen", 2024], soft),
 ];
 
 export const getCircuit = (slug: string) => circuits.find((x) => x.slug === slug);

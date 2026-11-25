@@ -47,13 +47,13 @@ export function TyreBanner() {
   );
 }
 
-export function RaceTyres({ compounds }: { compounds: readonly string[] }) {
+export function RaceTyres({ compounds, compact }: { compounds: readonly string[]; compact?: boolean }) {
   return (
-    <ul className="flex flex-wrap gap-8">
+    <ul className={compact ? "flex gap-4" : "flex flex-wrap gap-8"}>
       {compounds.map((id, i) => (
         <li key={id} className="flex items-center gap-3">
-          <TyreIcon label={id} color={roles[i].color} className="w-16" />
-          <span><span className="block font-medium" style={{ color: roles[i].color }}>{roles[i].name}</span><span className="text-sm text-muted">{id}</span></span>
+          <TyreIcon label={id} color={roles[i].color} className={compact ? "w-12" : "w-16"} />
+          <span className={compact ? "sr-only" : undefined}><span className="block font-medium" style={{ color: roles[i].color }}>{roles[i].name}</span><span className="text-sm text-muted">{id}</span></span>
         </li>
       ))}
     </ul>

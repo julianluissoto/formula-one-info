@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "datos": "node scripts/actualizar.mjs"
   },
   "dependencies": {
     "geist": "^1.9.2",

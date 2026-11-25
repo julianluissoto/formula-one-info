@@ -75,12 +75,18 @@ src/
 - Ocon no corre desde la ronda 19 (México): lo reemplazaron Hirakawa (19) y Câmara (20 y 21).
 - Hadjar se lesionó: Lawson lo reemplazó en Red Bull y Tsunoda subió a Racing Bulls (rondas 12–14). En `drivers.ts` se mantiene la alineación oficial; los reemplazos aparecen solos en el historial que trae la API.
 
+### Funciones sumadas después
+
+- `npm run datos` (`scripts/actualizar.mjs`) genera `src/data/season.json`; alimenta `/campeonato`, `/comparar`, resultados de `/circuitos/[slug]` y la próxima carrera. Al cerrar la temporada actualiza `history-*.json`.
+- Favoritos en `localStorage` (`components/favorite.tsx`). La hora actual solo se lee en el cliente (`components/next-race.tsx`).
+- `/campeones`, `/guia`, `/buscar`, fotos de pilotos, PWA (`manifest.ts`) e imagen social.
+- En la UI se dice "piloto reserva", nunca "banco".
+
 ## Pendientes (por prioridad)
 
 1. Karting de Browning y Maini (sin datos).
 2. Logos e imágenes con licencia propia o libre (no copiar assets de F1.com).
-3. Calendario (`/current.json`), circuitos y resultados por carrera.
-4. Pasar `src/data` a una base de datos con panel de admin.
+3. Pasar `src/data` a una base de datos con panel de admin.
 
 ## Convenciones
 

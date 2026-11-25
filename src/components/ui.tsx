@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { DriverPhoto } from "@/components/driver-photo";
+import { FavStar } from "@/components/favorite";
 import { getTeam } from "@/data/teams";
 import type { Driver, Team } from "@/data/types";
 
@@ -56,8 +58,9 @@ export function DriverRow({ driver }: { driver: Driver }) {
   return (
     <Link href={`/pilotos/${driver.slug}`} className="flex items-center gap-4 rounded-md bg-panel px-4 py-3 transition-colors hover:bg-panel-hover">
       <span className="w-10 shrink-0 font-mono text-2xl font-semibold tabular-nums" style={{ color: getTeam(driver.teams[0])?.color }}>{driver.number ?? "–"}</span>
+      <DriverPhoto slug={driver.slug} name="" className="size-12 shrink-0 rounded-full" sizes="48px" />
       <span className="min-w-0">
-        <span className="block font-medium">{driver.name}</span>
+        <span className="block font-medium">{driver.name}<FavStar href={`/pilotos/${driver.slug}`} /></span>
         <span className="block text-sm text-muted">
           {driver.teams.map((s) => getTeam(s)?.name).join(" y ")}
           {driver.role !== "titular" && `, ${driver.role}`}
