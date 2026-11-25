@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <>
       <h1 className="text-5xl font-semibold tracking-tight">Créditos de las fotos</h1>
-      <p className="mt-4 text-muted">Imágenes de Wikimedia Commons, reducidas y recortadas. Cada enlace lleva al original y su licencia. Los autos son <a className="underline" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+      <p className="mt-4 text-muted">Imágenes de Wikimedia Commons, salvo donde se indica otra fuente, reducidas y recortadas. Cada enlace lleva al original y su licencia. Los autos son <a className="underline" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
       <h2 className="mt-8 text-2xl font-semibold tracking-tight">Autos</h2>
       <ul className="mt-4 space-y-2">
         {teams.map((t) => {

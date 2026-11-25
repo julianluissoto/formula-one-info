@@ -1,6 +1,6 @@
 @AGENTS.md
 
-# CLAUDE.md — F1 Parrilla
+# CLAUDE.md — F1 Info
 
 Contexto para seguir este proyecto con Claude Code. Leelo completo antes de tocar código.
 

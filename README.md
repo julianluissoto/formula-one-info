@@ -1,4 +1,4 @@
-# F1 Parrilla
+# F1 Info
 
 Web personal sobre la temporada 2026 de Fórmula 1: escuderías, pilotos, circuitos y neumáticos. Está en español rioplatense.
 
@@ -96,7 +96,7 @@ Corré `npm run datos` y volvé a compilar. Actualiza resultados, clasificación
 - **Resultados:** Jolpica-F1, CC BY-NC-SA 4.0 (solo uso no comercial).
 - **Trayectorias y datos de circuitos:** Wikipedia, CC BY-SA 4.0.
 - **Fotos de los autos:** Liauzh en Wikimedia Commons, CC BY 4.0.
-- **Fotos de los pilotos:** Wikimedia Commons; autor y licencia de cada una en `/creditos`.
+- **Fotos de los pilotos:** Wikimedia Commons; autor y licencia de cada una en `/creditos`. La de Pierre Gasly es de Motorsport.com, con derechos reservados: reemplazarla o pedir permiso antes de publicar.
 - **Trazados:** [f1-circuits](https://github.com/bacinger/f1-circuits), MIT.
 - **Neumáticos:** información de [Pirelli](https://www.pirelli.com/tires/en-us/motorsport/car/formula-1); los dibujos son propios.
 - **Logos:** descargados de Wikimedia Commons; son marcas registradas de sus dueños.
