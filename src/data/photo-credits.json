@@ -1,0 +1,57 @@
+{
+  "mercedes": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Mercedes_-_Kimi_Antonelli_-_Qualifying.jpg"
+  },
+  "ferrari": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Ferrari_-_Lewis_Hamilton_-_Qualifying.jpg"
+  },
+  "red-bull": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Red_Bull_-_Max_Verstappen_-_Qualifying.jpg"
+  },
+  "mclaren": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_McLaren_-_Lando_Norris_-_Qualifying.jpg"
+  },
+  "racing-bulls": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Racing_Bulls_-_Liam_Lawson_-_Qualifying.jpg"
+  },
+  "alpine": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Alpine_-_Franco_Colapinto_-_Qualifying.jpg"
+  },
+  "haas": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Haas_-_Oliver_Bearman_-_Qualifying.jpg"
+  },
+  "audi": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Audi_-_Gabriel_Bortoleto_-_Qualifying.jpg"
+  },
+  "williams": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Williams_-_Alex_Albon_-_Qualifying.jpg"
+  },
+  "aston-martin": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Aston_Martin_-_Fernando_Alonso_-_Qualifying.jpg"
+  },
+  "cadillac": {
+    "author": "Liauzh",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2026_Chinese_GP_-_Cadillac_-_Valtteri_Bottas_-_Qualifying.jpg"
+  }
+}
