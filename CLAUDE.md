@@ -79,6 +79,7 @@ src/
 
 - `npm run datos` (`scripts/actualizar.mjs`) genera `src/data/season.json`; alimenta `/campeonato`, `/comparar`, resultados de `/circuitos/[slug]` y la próxima carrera. Al cerrar la temporada actualiza `history-*.json`.
 - Vuelta más rápida por sesión en la tarjeta de próxima carrera: `lib/openf1.ts` (API OpenF1, sin key). Durante una sesión en vivo OpenF1 bloquea el acceso gratuito; el tiempo aparece al terminar y se reconsulta cada pocos minutos.
+- `/en-vivo`: tiempos, sectores, neumáticos, velocidad, mapa, banderas y dirección de carrera de todos los autos con OpenF1 (`lib/live.ts`, `lib/openf1-client.ts`, rutas `app/api/en-vivo/`). Gratis: repetición de sesiones terminadas. Con la suscripción de OpenF1 (9,90 €/mes), definir `OPENF1_USERNAME` y `OPENF1_PASSWORD` y la sesión en curso se ve en vivo. Límite gratuito: 30 consultas/min por IP; la caché de `use cache` es en memoria.
 - Favoritos en `localStorage` (`components/favorite.tsx`). La hora actual solo se lee en el cliente (`components/next-race.tsx`).
 - `/campeones`, `/guia`, `/buscar`, fotos de pilotos, PWA (`manifest.ts`) e imagen social.
 - `/monoplaza`: datos en `data/car.ts`, plano técnico en SVG (unidades en mm) en `components/blueprint.tsx`.

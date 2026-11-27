@@ -1,12 +1,9 @@
 import { cacheLife } from "next/cache";
 import { drivers } from "@/data/drivers";
 import { getTeam } from "@/data/teams";
-import { throttled } from "./throttle";
+import { openf1OrNull as get } from "./openf1-client";
 
-// OpenF1: datos por sesión (prácticas incluidas). Sin API key, pero mientras hay
-// una sesión en vivo bloquea todo el acceso gratuito hasta que termina.
-const BASE = "https://api.openf1.org/v1";
-const HEADERS = { "User-Agent": "personal-f1-app/1.0.0" };
+// Mejor vuelta por sesión para la tarjeta de la próxima carrera (cliente en openf1-client.ts).
 const HOUR = 3_600_000;
 
 type ApiSession = { session_key: number; session_name: string; date_start: string; date_end: string };
@@ -17,19 +14,6 @@ type ApiDriver = { driver_number: number; full_name: string; team_name: string |
 export type SessionBest = { time: string; driver: string; slug: string | null; team: string; color: string };
 /** Mejor vuelta de cada sesión, con la hora de inicio de la sesión como clave. */
 export type SessionBests = Record<string, SessionBest | null>;
-
-async function get<T>(path: string): Promise<T | null> {
-  try {
-    return await throttled(async () => {
-      const res = await fetch(BASE + path, { headers: HEADERS, signal: AbortSignal.timeout(15_000) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return (await res.json()) as T;
-    });
-  } catch (e) {
-    console.error("OpenF1:", path, e instanceof Error ? e.message : e);
-    return null;
-  }
-}
 
 /** 83.456 → "1:23.456" */
 const lapTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toFixed(3).padStart(6, "0")}`;

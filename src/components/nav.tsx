@@ -43,7 +43,10 @@ export function Nav() {
   }, [open]);
 
   return (
-    <div ref={root}>
+    <div ref={root} className="flex items-center gap-4">
+      <Link href="/en-vivo" onClick={() => setOpen(false)} aria-current={path.startsWith("/en-vivo") ? "page" : undefined} className="live-button order-first flex shrink-0 items-center gap-2 rounded-full bg-race px-3.5 py-1.5 text-sm font-bold text-white uppercase lg:order-last">
+        <span aria-hidden className="live-dot size-2 rounded-full bg-white" />En vivo
+      </Link>
       <button ref={button} type="button" aria-expanded={open} aria-controls="menu" aria-label={open ? "Cerrar menú" : "Abrir menú"} onClick={() => setOpen(!open)} className="relative -mr-3 block size-11 cursor-pointer lg:hidden">
         <span className={`${bar} top-[15px] ${open ? "translate-y-[6px] rotate-45" : ""}`} />
         <span className={`${bar} top-[21px] ${open ? "scale-x-0" : ""}`} />
