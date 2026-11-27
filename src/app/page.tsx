@@ -1,4 +1,5 @@
 import Image from "next/image";
+import logo from "../../public/logo.png";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Favorites } from "@/components/favorite";
@@ -13,6 +14,7 @@ import { drivers, getDriverByJolpicaId, titulares } from "@/data/drivers";
 import { rounds } from "@/data/season";
 import { getTeam, getTeamByJolpicaId, teams } from "@/data/teams";
 import { getLastRace, getStandings } from "@/lib/jolpica";
+import { getSessionBests } from "@/lib/openf1";
 
 const upcoming = rounds.filter((r) => !r.results.length).flatMap((r) => {
   const c = circuits.find((x) => x.round === r.round);
@@ -45,7 +47,7 @@ export default function Home() {
           <span aria-hidden className="absolute inset-0 -z-1 bg-linear-to-t from-black via-black/60 to-transparent" />
           <div>
             <span className="rounded-sm bg-race px-2 py-0.5 text-xs font-bold uppercase">Temporada 2026</span>
-            <h1 className="mt-3">F1 Info</h1>
+            <h1 className="mt-3"><Image src={logo} alt="Fórmula Info" className="h-auto w-72 sm:w-96" sizes="384px" /></h1>
             <p className="mt-2 max-w-xl text-lg">{teams.length} escuderías, {titulares.length} titulares, circuitos y resultados en un solo lugar.</p>
           </div>
         </div>
@@ -60,7 +62,7 @@ export default function Home() {
       </div>
 
       <div className="mt-10">
-        {upcoming.length > 0 && <Fold id="proxima" title="Próxima carrera" aside={`Gran Premio de ${upcoming[0].gp}`} defaultOpen><NextRace races={upcoming} /></Fold>}
+        {upcoming.length > 0 && <Fold id="proxima" title="Próxima carrera" aside={`Gran Premio de ${upcoming[0].gp}`} defaultOpen><Suspense fallback={<NextRace races={upcoming} />}><RaceWithBests /></Suspense></Fold>}
         <Favorites items={favorites} />
         <Fold id="escuderias" title="Escuderías y pilotos" aside={`${teams.length} escuderías`}>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -73,6 +75,12 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+/** La próxima carrera con la vuelta más rápida de cada sesión ya corrida (OpenF1). */
+async function RaceWithBests() {
+  const bests = await getSessionBests(upcoming[0].sessions.map(({ at }) => ({ at })));
+  return <NextRace races={upcoming} bests={bests} />;
 }
 
 async function Live() {

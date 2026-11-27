@@ -4,7 +4,8 @@ import "@fontsource-variable/archivo/wdth.css";
 import "@fontsource/titillium-web/latin-400.css";
 import "@fontsource/titillium-web/latin-600.css";
 import "@fontsource/titillium-web/latin-700.css";
-import { Logo } from "@/components/logo";
+import Image from "next/image";
+import logo from "../../public/logo.png";
 import { author } from "@/data/site";
 import { Nav } from "@/components/nav";
 import Link from "next/link";
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <header className="sticky top-0 z-30 bg-asphalt">
           <div className="stripes relative border-b border-line">
           <nav aria-label="Principal" className="mx-auto flex min-h-15 max-w-6xl items-center justify-between gap-x-6 px-5">
-            <Link href="/" className="flex shrink-0 items-center gap-2 wide py-2 text-xl font-black tracking-tight uppercase italic"><Logo className="h-7" />F1 Info</Link>
+            <Link href="/" className="shrink-0 py-1.5"><Image src={logo} alt="Fórmula Info, inicio" preload className="h-12 w-auto" sizes="125px" /></Link>
             <Suspense><Nav /></Suspense>
           </nav>
           </div>
